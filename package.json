@@ -1,0 +1,14 @@
+{
+  "name": "hwpkit",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Read and write Korean HWP/HWPX documents — a Claude skill/CLI powered by the rhwp WASM engine.",
+  "license": "MIT",
+  "bin": {
+    "hwp-read": "scripts/hwp-read.mjs",
+    "hwp-write": "scripts/hwp-write.mjs"
+  },
+  "dependencies": {
+    "cfb": "^1.2.2"
+  }
+}

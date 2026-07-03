@@ -1,0 +1,11 @@
+# NOTE: node_modules is intentionally committed so the skill is self-contained
+# and runs offline inside the Cowork VM (only a small cfb + crc/adler set).
+
+.DS_Store
+*.log
+/tmp-*
+*.tmp
+# build/test scratch outputs
+/out.hwp
+/out.hwpx
+/*.local.*
