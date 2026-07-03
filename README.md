@@ -17,20 +17,46 @@ your documents never leave the environment.
 - **Write** Markdown → `.hwp` / `.hwpx`, so Claude can hand you a native 한글 file.
   Created tables are auto-repaired to Hancom-safe headers.
 
-## Install
+## Use in Claude Cowork
 
-### In Claude Cowork / Claude Desktop (as a plugin)
+Cowork runs a Linux VM with **Node.js pre-installed**, so hwpkit's scripts execute
+locally in that VM — no server, and your documents never leave the environment. There
+are two ways to use it; **Method A is the most reliable.**
 
-Cowork and Claude Desktop load plugins locally. Add this repository as a plugin
-(via **Customize → Plugins**, or a private/GitHub plugin source). The two skills
-(`hwp-to-markdown`, `markdown-to-hwp`) then activate automatically when you ask
-Claude to read or produce a `.hwp` / `.hwpx` file.
+### Method A — clone into your Cowork folder and run the scripts (recommended)
+
+1. In the folder you gave Cowork access to, get the repo:
+   ```bash
+   git clone https://github.com/yuyu04/hwpkit
+   ```
+   (`node_modules` + the rhwp WASM are committed, so **no `npm install` is needed**.)
+2. Then just ask Cowork, e.g.:
+   - **Read:** *"read this .hwp with hwpkit/scripts/hwp-read.mjs"* → runs
+     `node hwpkit/scripts/hwp-read.mjs <file.hwp>` and returns the text.
+   - **Write:** *"draft this as Markdown, then convert to HWP with hwpkit/scripts/hwp-write.mjs"* →
+     `node hwpkit/scripts/hwp-write.mjs <file.md> <out.hwp>`.
+
+### Method B — install as a Cowork plugin (skills activate automatically)
+
+Cowork → **Customize → Plugins → add a custom plugin**, using the GitHub source
+`yuyu04/hwpkit` (now public). Once installed, the skills `hwp-to-markdown` and
+`markdown-to-hwp` fire automatically whenever you ask Cowork to read or produce a
+`.hwp` / `.hwpx` file — no explicit script path needed.
+
+> Note: adding a plugin from a GitHub repo in Cowork is currently in beta. If it
+> doesn't connect, download this repo as a ZIP and use "upload a custom plugin
+> file", or just use Method A.
+
+**한국어 요약:** 코워크 VM에 Node가 있어 로컬로 동작합니다(서버·업로드 없음).
+가장 확실한 건 **방법 A** — 코워크 작업 폴더에 `git clone` 후 "hwpkit/scripts/hwp-write.mjs로
+이 내용을 hwp로 저장해줘"처럼 요청. 자동 스킬 활성화를 원하면 **방법 B**(Customize→Plugins→
+GitHub `yuyu04/hwpkit`, 베타).
 
 ### In Claude Code
 
 ```bash
 git clone https://github.com/yuyu04/hwpkit
-# add hwpkit as a plugin dir, or point Claude Code at it
+# add hwpkit as a plugin dir (--plugin-dir), or point Claude Code at it
 ```
 
 ### As a plain CLI
