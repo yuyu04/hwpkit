@@ -1,0 +1,53 @@
+name: Bug report
+description: A document doesn't read, write, or render correctly
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        HWP has many dialects in the wild — a sample file that reproduces the problem is
+        the single most useful thing you can attach. A redacted version is fine.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What did you run, and what came out?
+      placeholder: |
+        $ node scripts/hwp-write.mjs report.md report.hwp
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Node version and OS
+      placeholder: "node v20.11.0, macOS 14.4"
+    validations:
+      required: true
+  - type: dropdown
+    id: entry
+    attributes:
+      label: Which part?
+      multiple: true
+      options:
+        - hwp-read (reading a document)
+        - hwp-write (creating a document)
+        - hwp-preview (SVG/PNG rendering)
+        - Claude Cowork / plugin integration
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: sample
+    attributes:
+      label: Sample file or Markdown
+      description: >
+        Attach the .hwp/.hwpx (drag it in — GitHub accepts them inside a .zip), or paste
+        the Markdown that produces bad output. For visual bugs, a preview PNG from
+        `node scripts/hwp-preview.mjs your.hwp out/ --png` helps a lot.

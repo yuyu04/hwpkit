@@ -1,0 +1,29 @@
+name: Feature request
+description: Suggest something hwpkit should support
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The document or workflow you're stuck on, not just the feature name.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should hwpkit do?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Writing (Markdown → HWP)
+        - Reading (HWP → text)
+        - Preview / rendering
+        - Claude / Cowork skill behaviour
+        - Other
+    validations:
+      required: true

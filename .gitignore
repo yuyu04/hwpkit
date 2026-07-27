@@ -9,3 +9,8 @@
 /out.hwp
 /out.hwpx
 /*.local.*
+/preview-out/
+/out/
+.pytest_cache/
+# only the README hero PNG is committed; other renders are regenerable
+docs/images/*.svg
