@@ -4,7 +4,7 @@
 // widths only affect line-wrap/pagination hints, which HWP viewers recompute on
 // open — the document model (text, tables, structure) is unaffected.
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -25,7 +25,9 @@ let mod;
 /** Initialize (once) and return the rhwp WASM module namespace. */
 export async function loadRhwp() {
   if (mod) return mod;
-  mod = await import(resolve(VENDOR, 'rhwp.js'));
+  // pathToFileURL, not a bare path: on Windows, import("D:\\...") is rejected as an
+  // unsupported URL scheme ("Received protocol 'd:'"), which broke every script there.
+  mod = await import(pathToFileURL(resolve(VENDOR, 'rhwp.js')).href);
   await mod.default({ module_or_path: readFileSync(resolve(VENDOR, 'rhwp_bg.wasm')) });
   return mod;
 }
