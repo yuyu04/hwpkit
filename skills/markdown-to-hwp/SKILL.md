@@ -26,13 +26,22 @@ Write the output file into the user's working folder so they receive it directly
 | Markdown | Result |
 | --- | --- |
 | `# / ## / ###` | Heading, sized for hierarchy (22 / 17 / 14 / 11.5pt), bold |
-| plain line | Paragraph (맑은 고딕 10pt, 160% line spacing) |
+| plain line | Paragraph (맑은 고딕 10pt, 160% line spacing); consecutive lines join into one paragraph |
 | `- item` / `* item` | Bullet paragraph (`• item`), indented; nesting by indent |
 | `1. item` | Ordered item, indented (number kept) |
 | `**bold**` `*italic*` `` `code` `` | Inline character styling |
 | `[text](url)` `![alt](src)` | Reduced to their visible text |
 | `\| a \| b \|` rows | Real HWP table (the `---` separator row is ignored) |
 | blank line | Paragraph break |
+
+## Checking the result
+
+To verify formatting before handing the file over, render page 1 to an image and look at it
+(see the `hwp-preview` skill):
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/scripts/hwp-preview.mjs" "<output.hwp>" "<outdir>" --png --pages 1
+```
 
 ## Typography
 

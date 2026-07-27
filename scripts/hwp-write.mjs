@@ -11,7 +11,7 @@
 //   | a | b |      table rows      → real HWP table (header row bolded, separator skipped)
 //   **bold** *italic* `code`       → inline character formatting
 //   [text](url) ![alt](src)        → reduced to their text
-//   blank line     paragraph break
+//   blank line     paragraph break (consecutive lines soft-wrap into one paragraph)
 //   everything else                → plain paragraph
 //
 // Typography: body text uses a clean sans font (맑은 고딕) at 10pt with 160% line
@@ -99,8 +99,21 @@ function parseBlocks(text) {
     if (b) { blocks.push({ type: 'para', text: `• ${b[2].trim()}`, depth: indentDepth(line) + 1 }); i += 1; continue; }
     const o = /^(\s*)(\d+)\.\s+(.*)$/.exec(line);
     if (o) { blocks.push({ type: 'para', text: `${o[2]}. ${o[3].trim()}`, depth: indentDepth(line) + 1 }); i += 1; continue; }
-    blocks.push({ type: 'para', text: line.trim() });
+    // Markdown soft wrap: consecutive plain lines are ONE paragraph. Emitting a
+    // paragraph per source line would hard-break sentences mid-word in HWP.
+    const chunk = [line.trim()];
     i += 1;
+    while (i < rows.length) {
+      const next = rows[i];
+      if (!next.trim()) break;                       // blank line ends the paragraph
+      if (isTableRow(next)) break;
+      if (/^#{1,6}\s+/.test(next)) break;
+      if (/^\s*[-*+]\s+/.test(next)) break;
+      if (/^\s*\d+\.\s+/.test(next)) break;
+      chunk.push(next.trim());
+      i += 1;
+    }
+    blocks.push({ type: 'para', text: chunk.join(' ') });
   }
   return blocks;
 }
@@ -117,11 +130,20 @@ const doc = HwpDocument.createEmpty();
 doc.createBlankDocument(); // one empty paragraph at (0,0)
 
 const SEC = 0;
-// The original blank paragraph carries a phantom empty run that HWPX's writer keeps
-// as the flattened shape, silently dropping the first heading's formatting. Isolate
-// it into an empty para 0 (deleted before export) and write real content from para 1.
-doc.splitParagraph(SEC, 0, 0);
-let pi = 1; // current (empty) paragraph to write into
+// HWPX only: the original blank paragraph carries a phantom empty run that HWPX's
+// writer keeps as the flattened shape, silently dropping the first heading's
+// formatting. Isolate it into an empty para 0 (deleted before export) and write real
+// content from para 1.
+//
+// We must NOT do this for binary .hwp: there the section's page definition (paper
+// size, margins) is attached to the section's FIRST paragraph, so deleting para 0
+// wipes it — the file re-opens with a 0×0 page and absurd pagination. .hwp keeps
+// per-run shapes anyway, so it never needed the workaround.
+let pi = 0; // current (empty) paragraph to write into
+if (isHwpx) {
+  doc.splitParagraph(SEC, 0, 0);
+  pi = 1;
+}
 
 // Register fonts once; reference them by id in char formats.
 const idOf = (v) => (typeof v === 'string' && v.startsWith('{') ? (JSON.parse(v).id ?? 0) : v);
@@ -205,7 +227,7 @@ for (const blk of blocks) {
   }
 }
 
-doc.deleteParagraph(SEC, 0); // drop the isolated phantom paragraph
+if (isHwpx) doc.deleteParagraph(SEC, 0); // drop the isolated phantom paragraph
 let bytes = isHwpx ? doc.exportHwpx() : doc.exportHwp();
 // HWP only: repair freshly-created table headers (42→48 bytes) for Hancom safety.
 // HWPX tables are OWPML XML and don't have this issue.
