@@ -1,6 +1,6 @@
 {
   "name": "hwpkit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "type": "module",
   "description": "Read and write Korean HWP/HWPX documents (한글) — a Claude skill/plugin and CLI powered by the rhwp WASM engine. Runs locally, no server.",
