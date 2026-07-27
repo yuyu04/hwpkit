@@ -5,13 +5,13 @@
     "url": "https://github.com/yuyu04"
   },
   "metadata": {
-    "description": "Korean HWP/HWPX (한글) read & write skills for Claude / Claude Cowork."
+    "description": "Korean HWP/HWPX (한글) read, write & preview skills for Claude / Claude Cowork."
   },
   "plugins": [
     {
       "name": "hwpkit",
       "source": "./",
-      "description": "Read .hwp/.hwpx to text and create them from Markdown (한글). Skills: hwp-to-markdown, markdown-to-hwp."
+      "description": "Read .hwp/.hwpx to text, create them from Markdown, and render them to PNG/SVG (한글). Skills: hwp-to-markdown, markdown-to-hwp, hwp-preview."
     }
   ]
 }

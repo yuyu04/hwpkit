@@ -1,12 +1,43 @@
 {
   "name": "hwpkit",
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "private": true,
   "type": "module",
-  "description": "Read and write Korean HWP/HWPX documents — a Claude skill/CLI powered by the rhwp WASM engine.",
+  "description": "Read and write Korean HWP/HWPX documents (한글) — a Claude skill/plugin and CLI powered by the rhwp WASM engine. Runs locally, no server.",
   "license": "MIT",
+  "author": "sungju Yun",
+  "homepage": "https://github.com/yuyu04/hwpkit#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuyu04/hwpkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yuyu04/hwpkit/issues"
+  },
+  "keywords": [
+    "hwp",
+    "hwpx",
+    "한글",
+    "hancom",
+    "korean",
+    "owpml",
+    "document",
+    "claude",
+    "cowork",
+    "agent-skill"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "bin": {
     "hwp-read": "scripts/hwp-read.mjs",
-    "hwp-write": "scripts/hwp-write.mjs"
+    "hwp-write": "scripts/hwp-write.mjs",
+    "hwp-preview": "scripts/hwp-preview.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/roundtrip.test.mjs",
+    "example": "node scripts/hwp-write.mjs examples/sample.md examples/sample.hwp && node scripts/hwp-write.mjs examples/sample.md examples/sample.hwpx",
+    "example:preview": "node scripts/hwp-preview.mjs examples/sample.hwp docs/images --png --scale 2 --pages 1"
   },
   "dependencies": {
     "cfb": "^1.2.2"
