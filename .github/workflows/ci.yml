@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      # No install step on purpose: dependencies and the rhwp WASM are vendored so the
+      # skill runs offline. CI exercises the same code path a user gets from a bare clone.
+      - name: Round-trip tests
+        run: npm test
+      - name: Render a preview (SVG only, no browser needed)
+        run: node scripts/hwp-preview.mjs examples/sample.hwp preview-out
