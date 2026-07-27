@@ -6,7 +6,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdtempSync, statSync } from 'node:fs';
 import { join, resolve, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SCRIPTS = join(ROOT, 'scripts');
@@ -23,7 +23,8 @@ const read = (file) =>
 
 /** Re-open a written file with the engine and report page geometry. */
 async function geometry(file) {
-  const { loadRhwp } = await import(join(SCRIPTS, 'rhwp-init.mjs'));
+  // pathToFileURL, not a bare path: Windows ESM rejects "C:\..." as an unsupported scheme.
+  const { loadRhwp } = await import(pathToFileURL(join(SCRIPTS, 'rhwp-init.mjs')).href);
   const { HwpDocument } = await loadRhwp();
   const doc = new HwpDocument(new Uint8Array(readFileSync(file)));
   doc.convertToEditable();
