@@ -1,6 +1,6 @@
 {
   "name": "hwpkit",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "description": "Read and write Korean HWP/HWPX documents (한글) — a Claude skill/plugin and CLI powered by the rhwp WASM engine. Runs locally, no server.",
@@ -32,10 +32,12 @@
   "bin": {
     "hwp-read": "scripts/hwp-read.mjs",
     "hwp-write": "scripts/hwp-write.mjs",
-    "hwp-preview": "scripts/hwp-preview.mjs"
+    "hwp-preview": "scripts/hwp-preview.mjs",
+    "hwp-mcp": "scripts/hwp-mcp.mjs"
   },
   "scripts": {
-    "test": "node --test test/roundtrip.test.mjs",
+    "test": "node --test test/roundtrip.test.mjs test/mcp.test.mjs",
+    "mcp": "node scripts/hwp-mcp.mjs",
     "example": "node scripts/hwp-write.mjs examples/sample.md examples/sample.hwp && node scripts/hwp-write.mjs examples/sample.md examples/sample.hwpx",
     "example:preview": "node scripts/hwp-preview.mjs examples/sample.hwp docs/images --png --scale 2 --pages 1"
   },

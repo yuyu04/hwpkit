@@ -67,7 +67,34 @@ git clone https://github.com/yuyu04/hwpkit
 claude --plugin-dir ./hwpkit
 ```
 
-### Other AI agents (Codex, Cursor, Gemini CLI, Aider…)
+### Any MCP client (Gemini CLI, Codex, Cursor, VS Code, Claude Code…)
+
+hwpkit ships an MCP server over stdio, so it plugs into anything that speaks the
+Model Context Protocol. It runs as a local process — no HTTP, no network, documents stay
+put.
+
+```json
+{
+  "mcpServers": {
+    "hwpkit": {
+      "command": "node",
+      "args": ["/absolute/path/to/hwpkit/scripts/hwp-mcp.mjs"]
+    }
+  }
+}
+```
+
+Drop that in your client's MCP config (Gemini CLI `settings.json`, Cursor, VS Code, Claude
+Code — or `claude mcp add hwpkit -- node /absolute/path/to/hwpkit/scripts/hwp-mcp.mjs`).
+Codex takes the same command as a stdio server. Three tools appear: `hwp_read`,
+`hwp_write`, `hwp_preview`.
+
+The server is **dual-era**: it answers both the legacy `initialize` handshake and the
+stateless `2026-07-28` revision (`server/discover`, per-request `_meta`), so it works with
+clients on either side of that change. Zero dependencies — it implements the wire protocol
+directly rather than pulling in a ~4MB SDK, which keeps the offline, no-install promise.
+
+### Agent instructions (Codex, Cursor, Aider…)
 
 The scripts are a plain CLI, so any agent that can run a shell command can use hwpkit.
 [AGENTS.md](AGENTS.md) — the cross-tool instruction standard — tells it how: the commands,

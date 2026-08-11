@@ -67,7 +67,33 @@ git clone https://github.com/yuyu04/hwpkit
 claude --plugin-dir ./hwpkit
 ```
 
-### 다른 AI 에이전트 (Codex, Cursor, Gemini CLI, Aider…)
+### MCP 클라이언트 전부 (Gemini CLI, Codex, Cursor, VS Code, Claude Code…)
+
+hwpkit은 stdio MCP 서버를 함께 제공합니다. Model Context Protocol을 말하는 도구면 어디든
+붙습니다. 로컬 프로세스로 돌기 때문에 HTTP도 네트워크도 없고 문서가 그 자리에 남습니다.
+
+```json
+{
+  "mcpServers": {
+    "hwpkit": {
+      "command": "node",
+      "args": ["/hwpkit/절대경로/scripts/hwp-mcp.mjs"]
+    }
+  }
+}
+```
+
+쓰는 클라이언트의 MCP 설정에 넣으면 됩니다 (Gemini CLI `settings.json`, Cursor, VS Code,
+Claude Code — 또는 `claude mcp add hwpkit -- node /절대경로/scripts/hwp-mcp.mjs`).
+Codex도 같은 명령을 stdio 서버로 받습니다. 도구 세 개가 나타납니다: `hwp_read`,
+`hwp_write`, `hwp_preview`.
+
+이 서버는 **dual-era**입니다. 구버전 `initialize` 핸드셰이크와 stateless인 `2026-07-28`
+개정판(`server/discover`, 요청별 `_meta`)에 모두 응답하므로, 그 변경의 어느 쪽에 있는
+클라이언트든 동작합니다. 의존성은 0개입니다 — 약 4MB짜리 SDK를 끌어오는 대신 와이어
+프로토콜을 직접 구현해서, 오프라인·무설치 약속을 그대로 지킵니다.
+
+### 에이전트 지시문 (Codex, Cursor, Aider…)
 
 스크립트가 그냥 CLI라서, 셸 명령을 실행할 수 있는 에이전트면 어디서든 hwpkit을 씁니다.
 크로스툴 표준인 [AGENTS.md](AGENTS.md)가 사용법을 알려줍니다 — 명령, 지원하는 마크다운

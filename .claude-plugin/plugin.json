@@ -1,6 +1,6 @@
 {
   "name": "hwpkit",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Read, write, and preview Korean HWP/HWPX documents (한글). Lets Claude / Claude Cowork open .hwp and .hwpx files, generate them from Markdown, and render them to images — formats Claude cannot handle natively.",
   "author": {
     "name": "sungju Yun"

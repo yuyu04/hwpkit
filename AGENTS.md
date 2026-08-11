@@ -94,6 +94,26 @@ rhwp and HWP-format traps we already hit (the section's page definition living o
 paragraph 0, HWPX run flattening, `applyCharFormat` merging onto the ambient shape,
 `applyCharFormatInCell` silently no-oping, `findOrCreateFontId` returning JSON).
 
+## MCP server
+
+If your client speaks MCP, you don't need the CLI at all — run the bundled stdio server
+and call its tools instead:
+
+```json
+{
+  "mcpServers": {
+    "hwpkit": { "command": "node", "args": ["/absolute/path/to/hwpkit/scripts/hwp-mcp.mjs"] }
+  }
+}
+```
+
+Tools: `hwp_read` (path), `hwp_write` (markdown, outputPath), `hwp_preview` (path,
+outputDir, png?, pages?, scale?). Same rules as above apply — prefer `.hwp`, and preview
+before claiming the output is correct.
+
+The server is dual-era: it answers both the legacy `initialize` handshake and the
+stateless `2026-07-28` revision. `test/mcp.test.mjs` drives it over real stdio in both.
+
 ## Tool-specific setup
 
 Most agents read `AGENTS.md` at the repo root automatically. Two exceptions:
