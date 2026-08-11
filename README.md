@@ -1,6 +1,6 @@
 # hwpkit
 
-**Read and write Korean HWP / HWPX documents (한글) from Claude, Claude Cowork, Claude Code, or the command line — locally, with no server and no upload.**
+**Read, write and preview Korean HWP / HWPX documents (한글) from Claude, Claude Cowork, Codex, Cursor, Gemini CLI, or the command line — locally, with no server and no upload.**
 
 [![CI](https://github.com/yuyu04/hwpkit/actions/workflows/ci.yml/badge.svg)](https://github.com/yuyu04/hwpkit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -66,6 +66,28 @@ read or produce a `.hwp` / `.hwpx` file — no explicit script path needed.
 git clone https://github.com/yuyu04/hwpkit
 claude --plugin-dir ./hwpkit
 ```
+
+### Other AI agents (Codex, Cursor, Gemini CLI, Aider…)
+
+The scripts are a plain CLI, so any agent that can run a shell command can use hwpkit.
+[AGENTS.md](AGENTS.md) — the cross-tool instruction standard — tells it how: the commands,
+the supported Markdown subset, when to pick `.hwp` over `.hwpx`, and to verify output with
+a preview instead of guessing.
+
+```bash
+git clone https://github.com/yuyu04/hwpkit
+```
+
+Codex, Cursor, Aider, Zed, Windsurf and others pick up `AGENTS.md` automatically.
+**Gemini CLI** needs one line in `settings.json`:
+
+```json
+{ "context": { "fileName": ["GEMINI.md", "AGENTS.md"] } }
+```
+
+ChatGPT's web app can't reach a local tool — it only connects to remote HTTPS endpoints,
+which would mean uploading your documents. That trade-off is yours to make; hwpkit doesn't
+ship it.
 
 ### Plain CLI
 

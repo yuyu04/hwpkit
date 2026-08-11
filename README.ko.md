@@ -1,6 +1,6 @@
 # hwpkit
 
-**한글 문서(`.hwp` / `.hwpx`)를 Claude · Claude Cowork · Claude Code · 명령줄에서 읽고 쓰는 도구 — 전부 로컬에서, 서버도 업로드도 없이.**
+**한글 문서(`.hwp` / `.hwpx`)를 Claude · Cowork · Codex · Cursor · Gemini CLI · 명령줄에서 읽고 쓰고 미리보는 도구 — 전부 로컬에서, 서버도 업로드도 없이.**
 
 [![CI](https://github.com/yuyu04/hwpkit/actions/workflows/ci.yml/badge.svg)](https://github.com/yuyu04/hwpkit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -66,6 +66,26 @@ Cowork → **Customize → Plugins → add a custom plugin**에서 GitHub 소스
 git clone https://github.com/yuyu04/hwpkit
 claude --plugin-dir ./hwpkit
 ```
+
+### 다른 AI 에이전트 (Codex, Cursor, Gemini CLI, Aider…)
+
+스크립트가 그냥 CLI라서, 셸 명령을 실행할 수 있는 에이전트면 어디서든 hwpkit을 씁니다.
+크로스툴 표준인 [AGENTS.md](AGENTS.md)가 사용법을 알려줍니다 — 명령, 지원하는 마크다운
+범위, `.hwp`와 `.hwpx` 중 무엇을 고를지, 그리고 결과를 짐작하지 말고 미리보기로 확인하라는 것까지.
+
+```bash
+git clone https://github.com/yuyu04/hwpkit
+```
+
+Codex, Cursor, Aider, Zed, Windsurf 등은 `AGENTS.md`를 자동으로 읽습니다.
+**Gemini CLI**는 `settings.json`에 한 줄이 필요합니다:
+
+```json
+{ "context": { "fileName": ["GEMINI.md", "AGENTS.md"] } }
+```
+
+ChatGPT 웹 앱은 로컬 도구에 접근하지 못합니다. 원격 HTTPS 엔드포인트만 연결되는데, 그건
+문서를 업로드한다는 뜻입니다. 그 선택은 각자의 몫이고, hwpkit은 그 경로를 기본 제공하지 않습니다.
 
 ### 명령줄에서 바로
 
