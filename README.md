@@ -94,6 +94,11 @@ stateless `2026-07-28` revision (`server/discover`, per-request `_meta`), so it 
 clients on either side of that change. Zero dependencies — it implements the wire protocol
 directly rather than pulling in a ~4MB SDK, which keeps the offline, no-install promise.
 
+Verified against real clients, not just the spec: Gemini CLI 0.47.0 connects (still opening
+with the legacy `initialize` at `2025-11-25` — which is why dual-era matters), and
+Antigravity drove a full `hwp_write` → `hwp_read` round trip including table contents.
+`test/mcp.test.mjs` exercises both eras over real stdio.
+
 ### Agent instructions (Codex, Cursor, Aider…)
 
 The scripts are a plain CLI, so any agent that can run a shell command can use hwpkit.
