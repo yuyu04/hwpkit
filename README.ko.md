@@ -171,8 +171,9 @@ SVG는 Node만 있으면 됩니다. `--png`은 설치된 Chrome/Chromium/Edge를
 - `scripts/hwp-write.mjs` — 마크다운을 엔진의 편집 API로 문서에 쌓고 `.hwp` / `.hwpx`로 내보냅니다.
 - `scripts/hwp-preview.mjs` — 페이지를 SVG(선택적으로 PNG)로 렌더합니다.
 - `scripts/hwp-fix-tables.mjs` — 갓 만든 `.hwp` 표의 `CTRL_HEADER`를 올바른 48바이트
-  레이아웃으로 다시 씁니다(한컴 데스크톱이 저장 시 하는 보정을 JS로 옮긴 것). 이걸 해야
-  한글에서 표가 제대로 렌더·고정됩니다.
+  레이아웃으로 다시 씁니다. 이걸 해야 한글에서 표가 제대로 렌더·고정됩니다.
+  [HOP](https://github.com/golbin/hop)이 저장 시 적용하는 같은 보정을 JS로 옮긴 것입니다
+  (MIT, © Edward Kim — hwpkit이 쓰는 rhwp 엔진도 같은 분이 만들었습니다).
 
 ```bash
 npm test    # 마크다운 → .hwp/.hwpx → 재읽기 왕복, 용지 설정, SVG 렌더 검증

@@ -11,6 +11,17 @@ hwpkit bundles and depends on the following third-party components.
 The files in `vendor/rhwp/` (`rhwp.js`, `rhwp_bg.wasm`) are a WebAssembly build of
 the rhwp HWP viewer/editor engine, redistributed under the MIT License.
 
+## HOP (`scripts/hwp-fix-tables.mjs`)
+
+- Project: https://github.com/golbin/hop
+- License: MIT
+- Copyright (c) 2025-2026 Edward Kim
+
+`scripts/hwp-fix-tables.mjs` is a JavaScript port of HOP's Rust `fix_table_headers`
+(the save-time post-processing in `state.rs`) that rewrites freshly-created table
+`CTRL_HEADER`s to the correct 48-byte layout. The logic is derived from HOP and is
+used here under the MIT License.
+
 ## SheetJS CFB and dependencies (`node_modules/`)
 
 Used by `scripts/hwp-fix-tables.mjs` to read/write the OLE compound file structure

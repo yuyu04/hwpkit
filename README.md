@@ -175,8 +175,9 @@ For final visual sign-off, open the file in 한글.
   exports `.hwp` / `.hwpx`.
 - `scripts/hwp-preview.mjs` — renders pages to SVG, and optionally to PNG.
 - `scripts/hwp-fix-tables.mjs` — post-processes `.hwp` bytes to rewrite freshly-created table
-  `CTRL_HEADER`s to the correct 48-byte layout (a JS port of the same fix hop's desktop app
-  applies on save), so tables render and anchor correctly in Hancom.
+  `CTRL_HEADER`s to the correct 48-byte layout, so tables render and anchor correctly in
+  Hancom. This is a JS port of the same fix [HOP](https://github.com/golbin/hop) applies on
+  save (MIT, © Edward Kim — who also wrote the rhwp engine hwpkit runs on).
 
 ```bash
 npm test    # Markdown → .hwp/.hwpx → re-read round trip, page geometry, SVG render
